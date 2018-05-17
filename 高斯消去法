@@ -1,0 +1,209 @@
+#include <iostream>
+#include <cstdlib>//等价于C中的<stdlib.h>
+#include <cmath>
+#include <iomanip>
+#include <float.h>
+#define N 10
+using namespace std;
+void question1();
+void print(double [N][N+1]);
+void solution(double [N]);
+void count(double [N][N+1],double [N]);
+
+int main()
+{
+      while(1){
+            question1();
+      }
+    return 0;
+}
+
+void question1(){
+
+      cout <<"current matrix"<< endl;
+      double value[N]={0};
+      double a1[N][N+1] = {
+       {6,1,0,0,0,0,0,0,0,0,7}
+      ,{8,6,1,0,0,0,0,0,0,0,15}
+      ,{0,8,6,1,0,0,0,0,0,0,15}
+      ,{0,0,8,6,1,0,0,0,0,0,15}
+      ,{0,0,0,8,6,1,0,0,0,0,15}
+      ,{0,0,0,0,8,6,1,0,0,0,15}
+      ,{0,0,0,0,0,8,6,1,0,0,15}
+      ,{0,0,0,0,0,0,8,6,1,0,15}
+      ,{0,0,0,0,0,0,0,8,6,1,15}
+      ,{0,0,0,0,0,0,0,0,8,6,14}
+      };
+      print(a1);
+    cout <<" 选择1：顺序高斯消去法 "<< endl;
+    cout <<" 选择2：列主元高斯消去法 "<< endl;
+    cout <<" 选择3：选最小作为主元"<< endl;
+    cout <<" 选择4：退出 "<< endl;
+    int choice =0;
+    cin >> choice;
+    if(choice==1){//顺序高斯法消元
+      for(int k=0;k<N;k++){
+
+            cout <<"选择第"<<k+1<<"个主元"<<endl;//不能像java那样使用加号,原来写的是cin，应该是cout
+            cout <<a1[k][k]<< endl;
+            if(a1[k][k]!=0){
+                  for(int i=k+1;i<N;i++){
+                        double coe = a1[i][k]/a1[k][k];
+                        for(int j=k;j<N+1;j++){
+                              //a1[i][j] = a1[i][j]-(a1[i][k]*a1[k][j])/a1[k][k];
+                              a1[i][j] = a1[i][j]-a1[k][j]*coe;
+                        }
+                  }
+
+                  print(a1);
+
+            }else{
+                  cout <<"选择的主元为0！" << endl;
+            }
+      }
+
+
+      //回代求解。
+      count(a1,value);
+
+      cout <<"方程组的解为:" << endl;
+      solution(value);
+
+
+    }else if(choice==2){//列主元消去法消元
+
+      for(int k=0;k<N;k++){
+
+            cout <<"选择第"<<k+1<<"个主元"<<endl;//不能像java那样使用加号,原来写的是cin，应该是cout
+            double max=DBL_MIN;
+            int flag=0;
+            double tempt[1][N+1];
+            for(int m=k;m<N;m++){
+                  if(fabs(a1[m][k])>max){
+                        flag = m;
+                        max = a1[m][k];
+                  }
+            }
+            if(flag!=k&&a1[k][k]!=0){
+                  for(int n=0;n<N+1;n++){
+                        tempt[0][n] = a1[flag][n];
+                        a1[flag][n] = a1[k][n];
+                        a1[k][n] = tempt[0][n];
+                  }
+                  //打印输出每交换一行的数组
+                  print(a1);
+
+            cout <<a1[k][k]<< endl;
+                  for(int i=k+1;i<N;i++){
+                        double coe = a1[i][k]/a1[k][k];
+                        for(int j=k;j<N+1;j++){
+                              //a1[i][j] = a1[i][j]-(a1[i][k]*a1[k][j])/a1[k][k];
+                              a1[i][j] = a1[i][j]-a1[k][j]*coe;
+                        }
+                  }
+                  //打印输出每消一行之后的数组
+                  print(a1);
+
+            }else{
+                  cout <<"选择的主元为0！" << endl;
+            }
+      }
+      //打印输出消元之后的数组
+      print(a1);
+
+     //回代求解。
+     count(a1,value);
+
+      cout <<"方程组的解为:" << endl;
+      solution(value);
+
+    }else if(choice==3){//选择尽可能小的值作为主元
+          for(int k=0;k<N;k++){
+
+            cout <<"选择第"<<k+1<<"个主元"<<endl;
+            double min=DBL_MAX;
+            int flag=0;
+            double tempt[1][N+1];
+            for(int m=k;m<N;m++){
+                  if(a1[m][k]!=0&&fabs(a1[m][k])<min){
+                        flag = m;
+                        min = a1[m][k];
+                  }
+            }
+            if(a1[k][k]!=0){
+                  for(int n=0;n<N+1;n++){
+                        tempt[0][n] = a1[flag][n];
+                        a1[flag][n] = a1[k][n];
+                        a1[k][n] = tempt[0][n];
+                  }
+                  //print(a1);
+            //输出主元
+            cout <<a1[k][k]<< endl;
+
+                  for(int i=k+1;i<N;i++){
+                        double coe = a1[i][k]/a1[k][k];
+                        for(int j=k;j<N+1;j++){
+                              //a1[i][j] = a1[i][j]-(a1[i][k]*a1[k][j])/a1[k][k];
+                              a1[i][j] = a1[i][j]-a1[k][j]*coe;
+
+                        }
+                  }
+
+                  print(a1);
+
+            }else{
+                  cout <<a1[k][k]<< endl;
+                  cout <<"选择的主元为0！" << endl;
+            }
+      }
+
+      print(a1);
+
+     //回代求解。
+     count(a1,value);
+
+      cout <<"方程组的解为:" << endl;
+      solution(value);
+
+    }else if(choice==4){
+          cout <<" 程序结束！"<< endl;
+            exit(0);
+    }else{
+            cout <<" 请输入1,2或者3选择！"<<endl;
+    }
+}
+
+
+void print(double a[N][N+1]){
+
+for(int i=0;i<N;i++){
+            for(int j=0;j<N+1;j++){
+                  cout<<setprecision(16)<<a[i][j]<<"     ";
+            }
+            cout<<""<<endl;
+      }
+}
+
+
+void solution(double value[N]){
+
+      for(int i=0;i<N;i++){
+            cout <<i+1<<" "<<value[i]<<endl;
+      }
+}
+
+
+
+void count(double a1[N][N+1],double value[N]){
+       value[N-1] = a1[N-1][N]/a1[N-1][N-1];
+
+      for(int i=N-2;i>=0;i--){
+            double sum=0;
+            for(int j=N-1;j>i;j--){
+                  sum+=a1[i][j]*value[j];
+            }
+            value[i] = (a1[i][N]-sum)/a1[i][i];
+      }
+}
+
+
