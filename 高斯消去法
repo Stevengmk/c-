@@ -165,7 +165,51 @@ void question1(){
       cout <<"方程组的解为:" << endl;
       solution(value);
 
-    }else if(choice==4){
+    }else if(choice==4){//手动选择主元
+            for(int k=0;k<N;k++){
+            int m=1;
+            cout <<"选择第"<<k+1<<"个主元,输入选择主元所在行"<<endl;
+            cin >>m;
+            int flag=k;
+            double tempt[1][N+1];
+            if(a1[m-1][k]!=0){
+                        if(m-1!=k){
+
+                              for(int n=0;n<N+1;n++){
+                                    tempt[0][n] = a1[flag][n];
+                                    a1[flag][n] = a1[m-1][n];
+                                    a1[m-1][n] = tempt[0][n];
+                              }
+                        }
+                  //print(a1);
+            //输出主元
+            cout <<a1[m-1][k]<< endl;
+
+                  for(int i=k+1;i<N;i++){
+                        double coe = a1[i][k]/a1[k][k];
+                        for(int j=k;j<N+1;j++){
+                              //a1[i][j] = a1[i][j]-(a1[i][k]*a1[k][j])/a1[k][k];
+                              a1[i][j] = a1[i][j]-a1[k][j]*coe;
+
+                        }
+                  }
+
+                  print(a1);
+
+            }else{
+                  cout <<a1[m-1][k]<< endl;
+                  cout <<"选择的主元为0！" << endl;
+            }
+      }
+
+      print(a1);
+
+     //回代求解。
+     count(a1,value);
+
+      cout <<"方程组的解为:" << endl;
+      solution(value);
+    }else if(choice==5){
           cout <<" 程序结束！"<< endl;
             exit(0);
     }else{
