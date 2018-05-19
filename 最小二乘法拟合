@@ -1,0 +1,206 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#define N 4
+#define M 12
+using namespace std;
+double calcuIndex(int,double);
+void printa(double [N][N]);
+void printb(double [N]);
+double sumx(int ,double[M]);
+double sumxy(int ,double[M],double[M]);
+
+int main()
+{
+//      double x[M];
+//      double y[M];
+double x[M]={0,5,10,15,20,25,30,35,40,45,50,55};
+double y[M]={0,1.27,2.16,2.86,3.44,3.87,4.15,4.37,4.51,4.58,4.02,4.64};
+      double v[N] = {0};
+      double a[N][N]={0};
+      double g[N][N] = {0};
+      double b[N] = {0};
+      double q[N] = {0};
+//    cout <<" 输入时间数据！ "<< endl;
+//    for(int i=0;i<N;i++){
+//      cin>>t2[i];
+//    }
+//
+//    cout <<" 输入含碳量数据！ "<< endl;
+//    for(int i=0;i<N;i++){
+//      cin>>y[i];
+//    }
+
+
+
+    for(int i=0;i<N;i++){
+            for(int j=0;j<N;j++){
+                  a[i][j] = sumx(j+i,x);
+            }
+            b[i] =sumxy(i,x,y);
+    }
+    cout<<"a:"<<endl;
+    printa(a);
+    cout<<""<<endl;
+    cout<<"b:"<<endl;
+    printb(b);
+    cout<<""<<endl;
+
+      for(int k=0;k<N;k++){
+            double sum1=0;
+            for(int m=0;m<=k-1;m++){
+                  sum1 +=g[k][m]*g[k][m];
+            }
+            g[k][k] = sqrt(a[k][k]-sum1);
+
+            for(int i=k+1;i<N;i++){//k or k+1
+                  double sum2=0;
+                  for(int m=0;m<=k-1;m++){
+                        sum2 +=g[i][m]*g[k][m];
+                  }
+                  g[i][k] =(a[i][k]-sum2)/g[k][k];
+            }
+            double sum3=0;
+            for(int m=0;m<=k-1;m++){//<= or <
+                  sum3 += g[k][m]*q[m];//原先写的是a[k][m]
+                  //cout <<sum3<<endl;
+            }
+                  q[k] = (b[k]-sum3)/g[k][k];//原先写的是a[k][k]
+      }
+      cout<<"q:"<<endl;
+      printb(q);
+      cout<<endl;
+      for(int k=N-1;k>=0;k--){
+            double sum4=0;
+            for(int m=k+1;m<N;m++){//k or k+1
+                  sum4 +=g[m][k]*v[m];//原先写的是a[k][m]
+                  cout <<sum4<<endl;
+            }
+            v[k] = (q[k]-sum4)/g[k][k];//原先写的是a[k][k]
+      }
+//    for(int i=0,o=i+1;i<N,o<N;i++,o++){
+//            double sum1=0;
+//            double sum2=0;
+//            double sum3=0;
+//                  if(i!=0){
+//            for(int m=0;m<i;m++){//原来写的是m<i
+//
+//                  sum1+=a[i][m]*a[i][m];
+//                  sum2+=a[o][m]*a[i][m];//如果不是o是原来的i+1的话，当i=N-1,i+1就超出数组范围了
+//                  sum3+=a[i][m]*q[m];//q[0]是多少
+//                  }
+//            }
+//            g[i][i] = sqrt(a[i][i]-sum1);
+//            g[o][i] = (a[o][i]-sum2)/a[i][i];
+//            q[i] = (b[i]-sum3)/a[i][i];
+//
+//    }
+//    printa(g);
+//    double sum4=0;
+//    for(int k=N-2;k>=0;k--){
+//
+//      for(int m=k+1;m<N;m++){
+//             sum4+=a[m][k]*v[m];
+//      }
+//      v[k] = (q[k]-sum4)/a[k][k];
+//    }
+
+//for(int k=0;k<N;k++){
+//            double sum1=0;
+//            double sum2=0;
+//            double sum3=0;
+//            for(int m=0;m<=k-1;m++){//原来写的是m<i
+//
+//                  sum1+=a[k][m]*a[k][m];
+//
+//            }
+//            for(int i=k+1;i<N;i++){
+//                 for(int m=0;m<=k-1;m++){//原来写的是m<i
+//
+//                  sum2+=a[i][m]*a[k][m];
+//
+//            }
+//            g[i][k] = (a[i][k]-sum2)/a[k][k];
+//            }
+//            for(int m=0;m<=k-1;m++){//原来写的是m<i
+//
+//                  sum3+=a[k][m]*q[m];
+//            }
+//
+//            g[k][k] = sqrt(a[k][k]-sum1);
+//
+//            q[k] = (b[k]-sum3)/a[k][k];
+//
+//    }
+    printa(g);
+//    double sum4=0;
+//    for(int k=N-1;k>=0;k--){
+//
+//      for(int m=k+1;m<N;m++){
+//             sum4+=a[m][k]*v[m];
+//      }
+//      v[k] = (q[k]-sum4)/a[k][k];
+//    }
+    cout<<"x:"<<endl;
+    printb(v);
+    cout <<"F(t)=";
+    for(int k=0;k<N;k++){
+                  if(k==0){
+                        cout<<v[k]<<"+";
+                  }else if(k==N-1){
+                        cout<<"+"<<v[k]<<"t"<<k;
+                  }else{
+                        cout<<"+"<<v[k]<<"t"<<k;
+                  }
+    }
+
+
+    return 0;
+}
+
+
+double calcuIndex(int n,double base){
+      double product=1;
+      for(int i=0;i<n;i++){
+            product = product*base;
+      }
+      return product;
+}
+
+
+double sumx(int index,double x[M]){
+      double s = 0;
+      for(int i=0;i<M;i++){
+            s +=calcuIndex(index,x[i]);
+      }
+      return s;
+}
+
+
+double sumxy(int index,double x[M],double y[M]){
+      double s = 0;
+      for(int i=0;i<M;i++){
+            s +=calcuIndex(index,x[i])*y[i];
+      }
+      return s;
+}
+
+
+void printa(double a[N][N]){
+
+      for(int i=0;i<N;i++){
+            for(int j=0;j<N;j++){
+                  cout<<setprecision(16)<<a[i][j]<<"       ";
+            }
+            cout<<""<<endl;
+      }
+}
+
+
+void printb(double a[N]){
+
+      for(int i=0;i<N;i++){
+                  cout<<setprecision(16)<<a[i]<<"       ";
+      }
+      cout<<""<<endl;
+}
