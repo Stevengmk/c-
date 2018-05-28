@@ -1,0 +1,23 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+int main()
+{
+    int a;
+    char b;
+    double c;
+    ifstream fin;
+    fin.open("input.ini");//"input_ini"
+    fin>>a>>b>>c;
+    fin.close();
+    ofstream fout;
+    fout.open("output.ini");//fout.open()
+    //cin>>a>>b>>c;
+//    cout<<"the input integer is:"<<a<<endl
+//            <<"the input character is:"<<b<<endl
+//            <<"the input double is:"<<c<<endl;
+      fout<<"the input integer is:"<<a<<endl//cout
+            <<"the input character is:"<<b<<endl
+            <<"the input double is:"<<c<<endl;
+            fout.close();
+}
