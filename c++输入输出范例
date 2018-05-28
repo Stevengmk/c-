@@ -1,0 +1,60 @@
+#include <iostream>
+using namespace std;
+//void get_int(int&);
+//void new_line();
+//int main()
+//{
+//	int n;
+//	get_int(n);
+//	cout<<"final value read is = " <<n<<endl;
+//}
+//void new_line()
+//{
+//	char symbol;
+//	do
+//	{
+//		cin.get(symbol);
+//		cout<<symbol;
+//	}while(symbol!='\n');
+//}
+//void get_int(int& number)
+//{
+//	char ans;
+//	do
+//	{
+//		cout<<"Enter input number: ";
+//		cin>>number;
+//		cout<<"You entered "<<number
+//			<<" Is that correct? (yes/no): ";
+//		cin>>ans;
+//		cout<<1;
+//		cout<<ans<<endl;
+//		new_line();
+//	}while((ans!='Y')&&(ans!='y'));
+//}
+
+
+
+//      ifstream in_stream;
+//      in_stream.open("main.cpp");
+//      char next;
+//      in_stream.get(next);
+//      while(!in_stream.eof()){
+//            cout<<next;
+//            in_stream.get(next);
+//      }
+int main(){
+    cout<<"Enter a line of input and I will echo it:\n";
+	char symbol;
+	do
+	{
+		//cin.get(symbol);
+		cin>>symbol;
+		cout<<symbol;
+		cout<<1;
+		cout<<symbol;
+	}while (symbol!='\n');
+	cout<<"That‘s all for this demonstration";
+	return 0;
+
+}
